@@ -1,0 +1,21 @@
+version: "3"
+services:
+  nginx:
+    image: nginx
+    ports:
+      - 5000:5050
+    volumes: 
+      - "./nginx/:/etc/nginx/conf.d:ro"
+    networks:
+      - registry-network
+  repository_server:
+    image: registry:2
+    environment:
+      - REGISTRY_STORAGE_FILESYSTEM_ROOTDIRECTORY=/registry_data
+    volumes: 
+      - "./image_store:/registry_data"
+    networks: 
+      - registry-network
+    
+networks:
+  registry-network:
